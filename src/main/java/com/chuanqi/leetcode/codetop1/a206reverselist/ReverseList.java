@@ -1,4 +1,4 @@
-package com.chuanqi.leetcode.codetop1.l206reverselist;
+package com.chuanqi.leetcode.codetop1.a206reverselist;
 
 /**
  * 1.206. 反转链表
@@ -8,7 +8,7 @@ package com.chuanqi.leetcode.codetop1.l206reverselist;
  */
 public class ReverseList {
     public static void main(String[] args) {
-        Solution solution = new Solution();
+        SolutionG solution = new SolutionG();
         ListNode node = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
         ListNode listNode = solution.reverseList(node);
         System.out.println(listNode.val);
@@ -33,25 +33,35 @@ class ListNode {
     }
 }
 
-/** 官方的更优秀。 时间复杂度：O(n)
- * class Solution {
- *     public ListNode reverseList(ListNode head) {
- *         ListNode prev = null;
- *         ListNode curr = head;
- *         while (curr != null) {
- *             ListNode next = curr.next;
- *             curr.next = prev;
- *             prev = curr;
- *             curr = next;
- *         }
- *         return prev;
- *     }
- * }
- *
+
+/**
+ * 官方的更优秀。 时间复杂度：O(n)
+ * 本质上，与我的方法相同。
+ * <p>
+ * <p>
  * 作者：LeetCode-Solution
  * 链接：https://leetcode-cn.com/problems/reverse-linked-list/solution/fan-zhuan-lian-biao-by-leetcode-solution-d1k2/
  * 来源：力扣（LeetCode）
  * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+ */
+class SolutionG {
+    public ListNode reverseList(ListNode head) {
+        // 同样的是两个单链表。prev是一个单链表的头结点。
+        ListNode prev = null;
+        // curr是一个单链表的头结点。
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+}
+
+/**
+ * 我的方法一。
  */
 class Solution {
     public ListNode reverseList(ListNode head) {
@@ -63,10 +73,13 @@ class Solution {
         while (head != null) {
             // 总结3，head的前后两个都先独立出来，不然，赋值next = null的时候，会影响到。
             ListNode next = head.next;
+
             head1 = head;
             head1.next = null;
 
+            // 从顶部写入
             head1.next = head2;
+            // 重新获取head2的顶点。
             head2 = head1;
 
             head = next;
@@ -75,6 +88,7 @@ class Solution {
     }
 }
 
+//
 class Solution2 {
     // 总结2，写法是对的，但是不对题，写成了依次将头部的代码变为尾部的代码，但是顺序没有变。
     public ListNode reverseList(ListNode head) {
